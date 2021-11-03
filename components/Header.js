@@ -1,19 +1,29 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const Header = (props) => {
+const Header = ({ title }) => {
   return (
     <View style={styles.header}>
-      <Text>{props.title}</Text>
+      <Text style={styles.text}>{title}</Text>
     </View>
   );
 };
 
+Header.defaultProps = {
+  title: "New Project",
+};
+
 const styles = StyleSheet.create({
   header: {
-    alignItems: "center",
+    height: 50,
     padding: 10,
-    marginTop: 50,
+    backgroundColor: "indigo",
+  },
+  text: {
+    color: "indigo",
+    fontSize: 23,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
