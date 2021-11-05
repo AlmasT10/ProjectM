@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, Alert, Image } from "react-native";
+import { View, StyleSheet, FlatList, Alert, Image, Button } from "react-native";
 import { v4 as uuidv4 } from "uuid";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import Header from "../components/Header";
 import ProjectListItem from "../components/ProjectListItem";
 import AddListItem from "../components/AddListItem";
+import HeaderButton from "../components/HeaderButton";
 
 const ProjectList = (props) => {
   const [items, setItems] = useState([
@@ -57,6 +59,7 @@ const ProjectList = (props) => {
 
   const showItem = (id, title, desc) => {
     Alert.alert(title, desc);
+    props.navigation.navigate({ routeName: "ProjectTaskListScreen" });
   };
 
   const addItem = (text) => {
@@ -89,7 +92,12 @@ const ProjectList = (props) => {
         style={{ width: 420, height: 200 }}
       />
 
-      <AddListItem addItem={addItem} />
+      <AddListItem
+        addItem={addItem}
+        onPress={() => {
+          props.navigation.navigate({ routeName: "AddNewProjectScreen" });
+        }}
+      />
       <FlatList
         data={items}
         renderItem={({ item }) => (
@@ -98,6 +106,24 @@ const ProjectList = (props) => {
       />
     </View>
   );
+};
+
+ProjectList.navigationOptions = (navigationData) => {
+  return {
+    headerRight: () => {
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Favorite"
+          iconName="ios-add"
+          onPress={() => {
+            navigationData.navigation.navigate({
+              routeName: "AddNewProjectScreen",
+            });
+          }}
+        />
+      </HeaderButtons>;
+    },
+  };
 };
 
 const styles = StyleSheet.create({
